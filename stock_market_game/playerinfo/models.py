@@ -3,16 +3,16 @@ from django.db import models
 
 # Create your models here.
 
-class Player(User):
-	#wallet=models.ManyToManyField(Company)
-	awards=models.ManyToManyField(Award)
+class UserCredit(models.Model):
+	user=models.OneToOneField(User, primary_key=True)
+	current_credits=models.IntegerField()
 	
 	objects=UserManager()
 	
 		
 class Award(models.Model):
-	title=models.CharField(max_lenght=128)
-	winner=models.ManyToManyField(Player)
+	title=models.CharField(max_length=128)
+	winner=models.ForeignKey(User)
 	creation_date=models.DateTimeField(blank=True, null=True)
 	badge=models.URLField()
 	

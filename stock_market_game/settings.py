@@ -103,6 +103,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'stock_market_game.urls'
 
 TEMPLATE_DIRS = (
+	os.path.join(os.path.dirname(__file__), 'templates').replace('\\','/'),
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -120,12 +121,12 @@ AUTHENTICATION_BACKENDS = (
     #'social_auth.backends.contrib.orkut.OrkutBackend',
     #'social_auth.backends.contrib.orkut.FoursquareBackend',
     #'social_auth.backends.OpenIDBackend',
-    #'django.contrib.auth.backends.ModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
 )
 SOCIAL_AUTH_IMPORT_BACKENDS = (
     'myproy.social_auth_extra_services',
 )
-SOCIAL_AUTH_USER_MODEL = 'playerinfo.Player'
+#SOCIAL_AUTH_USER_MODEL = 'playerinfo.Player'
 
 #Login URLs need to change it later
 LOGIN_URL          = '/login-form/'
@@ -143,9 +144,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'playerinfo',
+    'gamecore',
     'social_auth',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
