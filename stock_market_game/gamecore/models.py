@@ -26,11 +26,16 @@ class Investment(models.Model):
 	
 	#here goes the methos over these objects
 	
+class Proposal(models.Model):
+	p_type=models.CharField(max_length=12)
+	player_from=models.ForeignKey(User, related_name='+')
+	
 
 class GEvent(models.Model):
 	e_type=models.CharField(max_length=12)
 	player_from=models.ForeignKey(User, related_name='+')
 	player_to=models.ForeignKey(User, related_name='+')
+	company=models.ForeignKey(Company, related_name='+')
 	e_value=models.IntegerField()
 	#Incomplete
 	

@@ -1,4 +1,5 @@
 # Django settings for stock_market_game project.
+import os
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -174,3 +175,8 @@ LOGGING = {
         },
     }
 }
+
+try:
+    from local_settings import *
+except:
+    pass
