@@ -41,4 +41,8 @@ class GEvent(models.Model):
 	
 	#here goes the methos over these objects
 	
-	
+
+class MenuItem(models.Model):
+	menu_name=models.CharField(max_length=12)
+	link_name=models.CharField(max_length=30)
+	link_url=models.URLField()
