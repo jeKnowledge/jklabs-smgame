@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import patterns, include, url
 
-from gamecore.views import sales
-from playerinfo.views import home , dashboard
+from gamecore.views import trading, proposal_view
+from playerinfo.views import home , dashboard, exit_game
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
@@ -17,7 +17,9 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^sales/$', sales , name='sales'),
+    url(r'^trading/$', trading , name='trading'),
+    url(r'^trading/(?P<prop_id>\d+)/$', proposal_view, name='proposal_view'),
     url(r'^$', home, name='home'),
+    url(r'^logout/$', exit_game, name='exit_game'),
     url(r'^dashboard/$', dashboard, name='dashboard'),
 )

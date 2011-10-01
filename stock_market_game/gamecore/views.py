@@ -1,9 +1,19 @@
 # Create your views here.
 from django.shortcuts import render_to_response
-from gamecore.models import GEvent, MenuItem
+from gamecore.models import Proposal, MenuItem
 
-def sales(request):
+def trading(request):
 	"""List of all sale events """
-	sales=GEvent.objects.filter(e_type="sale")
+	proposals=Proposal.objects.all()
 	menu_items=MenuItem.objects.all()
-	return render_to_response('sales_list.html', {'sales':sales, 'menu_items':menu_items})
+	#for item in sales:
+	#	print item.e_from.username
+	return render_to_response('trade.html', {'proposals':proposals, 'menu_items':menu_items})
+
+def proposal_view(request, prop_id):
+
+	actual_pro=Proposal.objects.get(id=int(prop_id))
+	menu_items=MenuItem.objects.all()
+	return render_to_response('proposal.html', {'actual_pro':actual_pro, 'menu_items':menu_items})
+	
+	

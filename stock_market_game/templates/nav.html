@@ -20,4 +20,4 @@
         
         
 -->
-<p>{% for link in menu_items %} {{link.link_name}} {% if not forloop.last %} | {%endif %} {%endfor%}</p>
+<p>{% for link in menu_items %} <a href="{{link.link_url}}">{{link.link_name}}</a> {% if not forloop.last %} | {%endif %} {%endfor%}</p>
