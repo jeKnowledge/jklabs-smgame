@@ -33,9 +33,9 @@
 
 <body>
 	<p>{% include "nav.html"%}</p>
-	<p>Market proposals:</p>
-	{% for prop in proposals %}
-	<p>{{prop.player_from.username}} wants to {{prop.p_type}} {{prop.shares}} shares from {{prop.company.name}} - <a href="/trading/{{prop.id}}">view</a> - <a href="/buy/{{prop.id}}">Trade</a></p>
+	<p>Your Assets:</p>
+	{% for invest in userinvest %}
+	<p>{{invest.n_shares}} of {{invest.of_company}}</p>
 	{% endfor %}
 </body>
 

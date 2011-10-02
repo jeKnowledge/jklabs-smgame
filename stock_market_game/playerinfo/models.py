@@ -9,6 +9,12 @@ class UserCredit(models.Model):
 	
 	objects=UserManager()
 	
+	def debit(self,value):
+		self.current_credits=self.current_credits-value
+	
+	def credit(self,value):
+		self.current_credits=self.current_credits+value
+	
 		
 class Award(models.Model):
 	title=models.CharField(max_length=128)

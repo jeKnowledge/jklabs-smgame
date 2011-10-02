@@ -38,7 +38,7 @@ def dashboard(request):
 											'name':request.user.first_name,'menu_items':menu_items, 'credits':total_credits.current_credits, 'last_events':last_events},
 											RequestContext(request))
 	
-
+@login_required
 def exit_game(request):
 	logout(request)
 	return HttpResponseRedirect('/')
