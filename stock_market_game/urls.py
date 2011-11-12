@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import patterns, include, url
 
-from gamecore.views import trading, proposal_view, buy, wallet
+from gamepress.views import bloglist, article_view
+from gamecore.views import trading, proposal_view, buy, wallet, addproposal
 from playerinfo.views import home , dashboard, exit_game
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -24,4 +25,7 @@ urlpatterns = patterns('',
     url(r'^dashboard/$', dashboard, name='dashboard'),
     url(r'^buy/(?P<prop_id>\d+)/$', buy, name='buy'),
     url(r'^wallet/$', wallet, name='wallet'),
+    url(r'^addproposal/$', addproposal, name='addproposal'),
+    url(r'^press/$', bloglist, name='bloglist'),
+    url(r'^press/(?P<art_id>\d+)/$', article_view, name='article_view'),
 )

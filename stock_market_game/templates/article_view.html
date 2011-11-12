@@ -33,14 +33,17 @@
 
 <body>
 	<p>{% include "nav.html"%}</p>
-	<p>Market State</p>
-	{%for comp, yest, tod, dif in values_list %}
-	<p>{{comp}} - {{yest}} - {{tod}} - {{dif}}</p>
-	{%endfor %}
-	<p>Market proposals:</p>
-	{% for prop in proposals %}
-	<p>{{prop.player_from.username}} wants to {{prop.p_type}} {{prop.shares}} shares from {{prop.company.name}} - <a href="/trading/{{prop.id}}">view</a> - <a href="/buy/{{prop.id}}">Trade</a> <form action="/buy/{{prop.id}}/" method="post">{% csrf_token %} {{ form.as_p }} <input type="submit" value="Submit" /> </form></p>
-	{% endfor %}
+	<p><b>{{article.atitle}}</b></p>
+	<p>{{article.adate}}</p>
+	<p>{{article.acontent}}</p>
+	{% if comments %}
+	<p><b>Comments:</b>
+	{%endif %}
+	{% for comment in comments %}
+	<p><b>{{comment.ccontent}}</b></p>
+	<p>{{comment.cdate}}</p>
+	<p>by {{comment.cauthor.username}}</p>
+	{%endfor%}
 </body>
 
 </html>
