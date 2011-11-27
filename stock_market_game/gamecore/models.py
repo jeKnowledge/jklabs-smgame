@@ -19,8 +19,6 @@ class Company(models.Model):
 	#here goes the methods over these objects
 	
 	
-	
-	
 class Investment(models.Model):
 	owner=models.ForeignKey(User)
 	of_company=models.ForeignKey(Company)
@@ -48,6 +46,12 @@ class GEvent(models.Model):
 	#Incomplete
 	
 	#here goes the methos over these objects
+
+class EventComment(models.Model):
+	author=models.ForeignKey(User, related_name='+')
+	event=models.ForeignKey(GEvent)
+	posted=models.DateTimeField()
+	content=models.TextField()
 	
 
 class MenuItem(models.Model):
@@ -56,11 +60,11 @@ class MenuItem(models.Model):
 	link_url=models.CharField(max_length=30)
 
 
+#Above you can find all the forms used by core functions
+
 class TradeForm(forms.Form):
 	value=forms.FloatField()
 	shares=forms.IntegerField()
 	
-class ProposalForm(models.forms.ModelForm):
-	class Meta:
-		model=Proposal
-	
+class CommentForm(forms.Form):
+	content=forms.CharField()

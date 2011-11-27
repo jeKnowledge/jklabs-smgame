@@ -36,9 +36,19 @@
 	<p>Bem-vindo {{name}} o seu username é {{user}} e tem {{credits}} creditos</p>
 	<p>Ultimos eventos no mercado:</p>
 	<ul>{% for event in last_events %}
-		<li>{{event.player_to.username}} bought {{event.amount_of_shares}} shares of {{event.company.name}}, for {{event.total_credits}} credits from {{event.player_from.username}}</li>
+		<li><a href='/event/{{event.id}}'>{{event.player_to.username}} bought {{event.amount_of_shares}} shares of {{event.company.name}}, for {{event.total_credits}} credits from {{event.player_from.username}}</a></li>
 		{% endfor %}
 		</ul>
+	
+	<p>Suas Messagens privadas:</p>
+	<ul>{% for msg in private_messages %}
+		<li>{{msg.sender.username}}- {{msg.send_date}} - {{msg.content}}</li>
+		{% endfor %}
+		</ul>
+	
+	<p>Enviar nova mensagem:</p>
+	<p><form action="/msgsend/" method="post">{% csrf_token %} {{ form.as_p }} <input type="submit" value="Send" /> </form></p>
+	
 </body>
 
 </html>

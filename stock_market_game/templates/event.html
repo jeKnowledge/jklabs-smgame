@@ -1,5 +1,5 @@
 <!--
-        sales_list.html
+        event.html
         
         Copyright 2011 Gonçalo Valério <dethos@dmachine>
         
@@ -26,23 +26,28 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 <head>
-	<title>untitled</title>
+	<title>sem título</title>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<meta name="generator" content="Geany 0.20" />
 </head>
 
 <body>
 	<p>{% include "nav.html"%}</p>
-	<p>Your Assets:</p>
-	{% for invest in userinvest %}
-	<p>{{invest.n_shares}} of {{invest.of_company.name}} <br/> 
-	<form action="/addproposal/{{invest.id}}/" method="post">{% csrf_token %} {{ form.as_p }} <input type="submit" value="Sell" /> </form>
-	</p>
+	<p>Event Details:</p>
+	<p><b>Company:</b> {{event_data.company.name}}</p>
+	<p><b>From:</b> {{event_data.player_from.username}}</p>
+	<p><b>To:</b> {{event_data.player_to.username}}</p>
+	<p><b>Shares:</b> {{event_data.amount_of_shares}}</p>
+	<p><b>Credits::</b> {{event_data.total_credits}}</p>
+	
+	<p><b>Comments:</b></p>
+	{% for comment in comments %}
+	<p><b>{{comment.author.username}}:</b> {{comment.content}}</p>
 	{% endfor %}
-	<p>Your Assets recent value:</p>
-	{%for comp, yest, tod, dif, init, gainloss in values_list %}
-	<p>{{comp}} - {{yest}} - {{tod}} - {{dif}} - {{init}} - {{gainloss}}</p>
-	{%endfor %}
+	
+	<p><form action="/event/{{event_data.id}}/" method="post">{% csrf_token %} {{ form.as_p }} <input type="submit" value="Send" /> </form></p>
 </body>
+
+</html>
 
 </html>
