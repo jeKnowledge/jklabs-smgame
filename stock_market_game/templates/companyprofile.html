@@ -1,0 +1,49 @@
+{% include "header.html" %}
+<body>
+	{% include "nav.html" %}
+	<table class="profileTable">
+		<tr>
+			<td class="tableHeader">
+				{{institution.name}} Company Profile
+			</td>
+		</tr>
+	<table>
+	<table class="profileTable">
+		<tr>
+			<td class="tableHeader" width="200">
+				Website:
+			</td>
+			<td class="tableText">
+				{{institution.website}}
+			</td>
+		</tr>
+		<tr>
+			<td class="tableHeader">
+				Creation Date:
+			</td>
+			<td class="tableText">
+				{{institution.foundation}}
+			</td>
+		</tr>
+		<tr>
+			<td class="tableHeader">
+				About:
+			</td>
+			<td class="tableText">
+				{{instituition.about}}
+			</td>
+		</tr>
+		<tr>
+			<td class="tableHeader">
+				Shareholders:
+			</td>
+			<td class="tableText">
+				{% for shareolder in owners %}
+				- {{shareolder.owner.username}} has {{shareolder.n_shares}} shares <br/>
+				{% endfor %}
+			</td>
+		</tr>
+	</table>
+</body>
+
+{% include "footer.html" %}

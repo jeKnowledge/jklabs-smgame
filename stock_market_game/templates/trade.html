@@ -1,46 +1,47 @@
-<!--
-        sales_list.html
-        
-        Copyright 2011 Gonçalo Valério <dethos@dmachine>
-        
-        This program is free software; you can redistribute it and/or modify
-        it under the terms of the GNU General Public License as published by
-        the Free Software Foundation; either version 2 of the License, or
-        (at your option) any later version.
-        
-        This program is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-        GNU General Public License for more details.
-        
-        You should have received a copy of the GNU General Public License
-        along with this program; if not, write to the Free Software
-        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-        MA 02110-1301, USA.
-        
-        
--->
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-
-<head>
-	<title>untitled</title>
-	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-	<meta name="generator" content="Geany 0.20" />
-</head>
-
+{% include "header.html" %}
 <body>
-	<p>{% include "nav.html"%}</p>
-	<p>Market State</p>
-	{%for comp, yest, tod, dif in values_list %}
-	<p>{{comp}} - {{yest}} - {{tod}} - {{dif}}</p>
-	{%endfor %}
-	<p>Market proposals:</p>
-	{% for prop in proposals %}
-	<p>{{prop.player_from.username}} wants to {{prop.p_type}} {{prop.shares}} shares from {{prop.company.name}} - <a href="/trading/{{prop.id}}">view</a> - <a href="/buy/{{prop.id}}">Trade</a> <form action="/buy/{{prop.id}}/" method="post">{% csrf_token %} {{ form.as_p }} <input type="submit" value="Submit" /> </form></p>
-	{% endfor %}
+	{% include "nav.html"%}
+	<table class="tradeTable">
+                <tr>
+                        <td class = "tableHeader">
+                                Market state
+                        </td>
+                </tr>
+        </table>
+        <table class="tradeTable">
+                {%for comp, yest, tod, dif in values_list %}
+                <tr>
+                        <td class = "tableHeader">
+                                {{comp}}
+                        </td>
+                        <td class = "tableText">
+                                {{yest}}
+                        </td>
+                        <td class = "tableText">
+                                {{tod}}
+                        </td>
+                        <td class = "tableText">
+                                {{dif}}
+                        </td>
+                </tr>
+                {%endfor %}
+        </table>
+
+        <table class="tradeTable">
+                <tr>
+                        <td class = "tableHeader">
+                                Current proposals:
+                        </td>
+                </tr>
+                {% for prop in proposals %}
+                <tr>
+                        <td class = "tableText">
+                                {{prop.player_from.username}} wants to {{prop.p_type}} {{prop.shares}} shares from {{prop.company.name}} - <a href="/trading/{{prop.id}}">view</a>
+                                <form action="/buy/{{prop.id}}/" method="post">{% csrf_token %} {{ form.as_p }} <input type="submit" value="Submit" /> </form>
+                        </td>
+                </tr>
+                {% endfor %}
+        </table>
 </body>
 
-</html>
+{% include "footer.html" %}

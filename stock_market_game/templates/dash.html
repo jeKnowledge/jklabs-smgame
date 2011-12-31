@@ -1,54 +1,52 @@
-<!--
-        dash.html
-        
-        Copyright 2011 Gonçalo Valério <dethos@dmachine>
-        
-        This program is free software; you can redistribute it and/or modify
-        it under the terms of the GNU General Public License as published by
-        the Free Software Foundation; either version 2 of the License, or
-        (at your option) any later version.
-        
-        This program is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-        GNU General Public License for more details.
-        
-        You should have received a copy of the GNU General Public License
-        along with this program; if not, write to the Free Software
-        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-        MA 02110-1301, USA.
-        
-        
--->
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-
-<head>
-	<title>DashBoard></title>
-	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-	<meta name="generator" content="Geany 0.20" />
-</head>
-
+{% include "header.html" %}
 <body>
-	<p>{% include "nav.html"%}</p>
-	<p>Bem-vindo {{name}} o seu username é {{user}} e tem {{credits}} creditos</p>
-	<p>Ultimos eventos no mercado:</p>
-	<ul>{% for event in last_events %}
-		<li><a href='/event/{{event.id}}'>{{event.player_to.username}} bought {{event.amount_of_shares}} shares of {{event.company.name}}, for {{event.total_credits}} credits from {{event.player_from.username}}</a></li>
-		{% endfor %}
-		</ul>
-	
-	<p>Suas Messagens privadas:</p>
-	<ul>{% for msg in private_messages %}
-		<li>{{msg.sender.username}}- {{msg.send_date}} - {{msg.content}}</li>
-		{% endfor %}
-		</ul>
-	
-	<p>Enviar nova mensagem:</p>
-	<p><form action="/msgsend/" method="post">{% csrf_token %} {{ form.as_p }} <input type="submit" value="Send" /> </form></p>
-	
+	{% include "nav.html"%}
+
+	<table width="100%">
+		<tr valign="top">
+			<td>
+				<table class="innerTable">
+					<tr>
+						<td class="tableHeader">
+							Private Messages
+						</td>
+					</tr>
+					{% for msg in private_messages %}
+					<tr>
+						<td class="tableText">
+							De: {{msg.sender.username}}<br/>
+							Envidado: {{msg.send_date}}<br/> 
+							Mensagem: <br/>
+							{{msg.content}}
+						</td>
+					</tr>
+					{% endfor %}
+					<tr>
+						<td class="tableHeader">
+							New message:<br/>
+							<form action="/msgsend/" method="post">{% csrf_token %} {{ form.as_p }} <input type="submit" value="Send" /> </form>
+						</td>
+					</tr>
+				</table>
+			</td>
+			<td>
+				<table class="innerTable">
+					<tr>
+						<td class="tableHeader">
+							Last market events
+						</td>
+					</tr>
+					{% for event in last_events %}
+					<tr>
+						<td class="tableText">
+							<a href='/event/{{event.id}}'>{{event.player_to.username}} bought {{event.amount_of_shares}} shares of {{event.company.name}}, for {{event.total_credits}} credits from {{event.player_from.username}}</a>
+						</td>
+					</tr>
+					{% endfor %}
+				</table>
+			</td>
+		</tr>
+	</table>
 </body>
 
-</html>
+{% include "footer.html" %}

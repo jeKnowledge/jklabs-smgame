@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import patterns, include, url
 
 from gamepress.views import bloglist, article_view
-from gamecore.views import trading, proposal_view, buy, wallet, addproposal, eventdetails
+from gamecore.views import trading, proposal_view, buy, wallet, addproposal, eventdetails, companypage
 from playerinfo.views import home , dashboard, exit_game, profile, send
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -31,4 +31,5 @@ urlpatterns = patterns('',
     url(r'^profile/(?P<user_id>\d+)/$', profile, name='profile'),
     url(r'^event/(?P<event_id>\d+)/$', eventdetails, name='eventdetails'),
     url(r'^msgsend/$', send, name='send'),
+    url(r'^company/(?P<company_id>\d+)/$', companypage, name='companypage'),
 )

@@ -1,52 +1,69 @@
-<!--
-        dash.html
-        
-        Copyright 2011 Gonçalo Valério <dethos@dmachine>
-        
-        This program is free software; you can redistribute it and/or modify
-        it under the terms of the GNU General Public License as published by
-        the Free Software Foundation; either version 2 of the License, or
-        (at your option) any later version.
-        
-        This program is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-        GNU General Public License for more details.
-        
-        You should have received a copy of the GNU General Public License
-        along with this program; if not, write to the Free Software
-        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-        MA 02110-1301, USA.
-        
-        
--->
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-
-<head>
-	<title>DashBoard></title>
-	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-	<meta name="generator" content="Geany 0.20" />
-</head>
-
+{% include "header.html" %}
 <body>
-	<p>{% include "nav.html"%}</p>
-	<p>Primeiro Nome: {{userob.first_name}} <br/> Username: {{userob.username}} <br/> Créditos: {{ucredits.current_credits}}</p>
-	<p>Prémios:</p>
-	<p>{% for badge in uawards %}<IMG SRC="{{ STATIC_URL }}{{badge.badge}}"> incha{% endfor %}</p>
-	<p>Ultimas vendas do utilizador:</p>
-	<ul>{% for event in sells %}
-		<li>{{event.player_to.username}} bought {{event.amount_of_shares}} shares of {{event.company.name}}, for {{event.total_credits}} credits from {{event.player_from.username}}</li>
+	{% include "nav.html"%}
+
+	<table class="profileTable">
+		<tr>
+			<td class="tableHeader">
+				{{userob.username}} Profile
+			</td>
+		</tr>
+	<table>
+
+	<table class="profileTable">
+		<tr>
+			<td class="tableHeader" width="200">
+				Name:
+			</td>
+			<td class="tableText">
+				{{userob.first_name}}
+			</td>
+		</tr>
+		<tr>
+			<td class="tableHeader">
+				Credits:
+			</td>
+			<td class="tableText">
+				{{ucredits.current_credits}}
+			</td>
+		</tr>
+		<tr>
+			<td class="tableHeader">
+				Awards:
+			</td>
+			<td class="tableText">
+				{% for badge in uawards %}<IMG SRC="{{ STATIC_URL }}{{badge.badge}}" alt="badge.title">{% endfor %}
+			</td>
+		</tr>
+	</table>
+
+	<table class="profileTable">
+		<tr>
+			<td class="tableHeader">
+				Last Sells:
+			</td>
+		</tr>
+		{% for event in sells %}
+		<tr>
+			<td class= "tableText">
+				{{event.player_to.username}} bought {{event.amount_of_shares}} shares of {{event.company.name}}, for {{event.total_credits}} credits from {{event.player_from.username}}
+			</td>
+		</tr>
 		{% endfor %}
-		</ul>
-	
-	<p>Ultimas compras do utilizador:</p>
-	<ul>{% for event in buys %}
-		<li>{{event.player_to.username}} bought {{event.amount_of_shares}} shares of {{event.company.name}}, for {{event.total_credits}} credits from {{event.player_from.username}}</li>
+
+		<tr>
+			<td class="tableHeader">
+				Last Buys:
+			</td>
+		</tr>
+		{% for event in buys %}
+		<tr>
+			<td class= "tableText">
+				{{event.player_to.username}} bought {{event.amount_of_shares}} shares of {{event.company.name}}, for {{event.total_credits}} credits from {{event.player_from.username}}
+			</td>
+		</tr>
 		{% endfor %}
-		</ul>
+	<table>
 </body>
 
-</html>
+{% include "footer.html" %}

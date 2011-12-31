@@ -31,7 +31,7 @@ def proposal_view(request, prop_id):
 
 	actual_pro=Proposal.objects.get(id=int(prop_id))
 	menu_items=MenuItem.objects.all()
-	return render_to_response('proposal.html', {'actual_pro':actual_pro, 'menu_items':menu_items})
+	return render_to_response('proposal.html', {'actual_pro':actual_pro, 'menu_items':menu_items}, context_instance=RequestContext(request))
 	
 @login_required
 def buy(request, prop_id):
@@ -47,17 +47,17 @@ def buy(request, prop_id):
 			menu_items=MenuItem.objects.all()
 			
 			if request.user.username == proposal.player_from.username:
-				return render_to_response('cannot.html', {'menu_items':menu_items})
+				return render_to_response('cannot.html', {'menu_items':menu_items}, context_instance=RequestContext(request))
 			
 			if proposal.shares < nshares:
-				return render_to_response('cannot.html', {'menu_items':menu_items})
+				return render_to_response('cannot.html', {'menu_items':menu_items}, context_instance=RequestContext(request))
 			
 			if proposal.p_type == 'sell':
 				if proposal.per_share > svalue:
-					return render_to_response('cannot.html', {'menu_items':menu_items})
+					return render_to_response('cannot.html', {'menu_items':menu_items}, context_instance=RequestContext(request))
 				ucredits=UserCredit.objects.get(user=request.user)
 				if ucredits.current_credits < nshares*svalue:
-					return render_to_response('cannot.html', {'menu_items':menu_items})
+					return render_to_response('cannot.html', {'menu_items':menu_items}, context_instance=RequestContext(request))
 				
 				invest=Investment(owner=request.user,of_company=proposal.company,n_shares=nshares, initial_value=svalue)
 				invest.save()
@@ -79,10 +79,10 @@ def buy(request, prop_id):
 				
 			elif proposal.p_type== 'buy':
 				if proposal.per_share < svalue:
-					return render_to_response('cannot.html', {'menu_items':menu_items})
+					return render_to_response('cannot.html', {'menu_items':menu_items}, context_instance=RequestContext(request))
 				ucredits=UserCredit.objects.get(user=proposal.player_from)
 				if ucredits.current_credits < nshares*svalue:
-					return render_to_response('cannot.html', {'menu_items':menu_items})
+					return render_to_response('cannot.html', {'menu_items':menu_items},context_instance=RequestContext(request))
 				
 				invest=Investment(owner=proposal.player_from,of_company=proposal.company,n_shares=nshares, initial_value=svalue)
 				invest.save()
@@ -107,7 +107,7 @@ def buy(request, prop_id):
 				proposal.shares = proposal.shares - nshares;
 				proposal.save()
 			
-			return render_to_response('success.html', {'menu_items':menu_items})
+			return render_to_response('success.html', {'menu_items':menu_items}, context_instance=RequestContext(request))
 
 @login_required	
 def wallet(request):
@@ -156,6 +156,12 @@ def eventdetails(request, event_id):
 	menu_items=MenuItem.objects.all()
 	form=CommentForm()
 	return render_to_response('event.html',{'event_data':event_data, 'comments':comments, 'menu_items':menu_items, 'form':form}, context_instance=RequestContext(request) )
+
+def companypage(request, company_id):
+	institution=Company.objects.get(id=int(company_id))
+	menu_items=MenuItem.objects.all()
+	owners=Investment.objects.filter(of_company=institution)
+	return render_to_response('companyprofile.html', {'institution':institution, 'menu_items':menu_items, 'owners':owners},context_instance=RequestContext(request))
 
 #Auxiliar functions
 def generate_diference(todays, yesterday):

@@ -1,4 +1,4 @@
-from gamecore.models import Company, Investment, GEvent, MenuItem, Proposal
+from gamecore.models import Company, Investment, GEvent, MenuItem, Proposal, EventComment
 from django.contrib import admin
 
 class MenuItemList(admin.ModelAdmin):
@@ -9,3 +9,4 @@ admin.site.register(Investment)
 admin.site.register(GEvent)
 admin.site.register(MenuItem,MenuItemList)
 admin.site.register(Proposal)
+admin.site.register(EventComment)

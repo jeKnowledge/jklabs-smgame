@@ -132,7 +132,7 @@ SOCIAL_AUTH_IMPORT_BACKENDS = (
 
 #Login URLs need to change it later
 LOGIN_URL          = '/login-form/'
-LOGIN_REDIRECT_URL = '/logged-in/'
+LOGIN_REDIRECT_URL = '/dashboard/'
 LOGIN_ERROR_URL    = '/login-error/'
 #Auth Complete Urls change later too
 SOCIAL_AUTH_COMPLETE_URL_NAME  = 'complete'

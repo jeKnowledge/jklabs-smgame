@@ -1,53 +1,78 @@
-<!--
-        event.html
-        
-        Copyright 2011 Gonçalo Valério <dethos@dmachine>
-        
-        This program is free software; you can redistribute it and/or modify
-        it under the terms of the GNU General Public License as published by
-        the Free Software Foundation; either version 2 of the License, or
-        (at your option) any later version.
-        
-        This program is distributed in the hope that it will be useful,
-        but WITHOUT ANY WARRANTY; without even the implied warranty of
-        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-        GNU General Public License for more details.
-        
-        You should have received a copy of the GNU General Public License
-        along with this program; if not, write to the Free Software
-        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-        MA 02110-1301, USA.
-        
-        
--->
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-
-<head>
-	<title>sem título</title>
-	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-	<meta name="generator" content="Geany 0.20" />
-</head>
+{%include "header.html" %}
 
 <body>
-	<p>{% include "nav.html"%}</p>
-	<p>Event Details:</p>
-	<p><b>Company:</b> {{event_data.company.name}}</p>
-	<p><b>From:</b> {{event_data.player_from.username}}</p>
-	<p><b>To:</b> {{event_data.player_to.username}}</p>
-	<p><b>Shares:</b> {{event_data.amount_of_shares}}</p>
-	<p><b>Credits::</b> {{event_data.total_credits}}</p>
-	
-	<p><b>Comments:</b></p>
-	{% for comment in comments %}
-	<p><b>{{comment.author.username}}:</b> {{comment.content}}</p>
-	{% endfor %}
-	
-	<p><form action="/event/{{event_data.id}}/" method="post">{% csrf_token %} {{ form.as_p }} <input type="submit" value="Send" /> </form></p>
+	{% include "nav.html"%}
+	<table class= "eventTable">
+		<tr>
+			<td class = "tableHeader">
+				Event Details:
+			</td>
+		</tr>
+	</table>
+	<table class= "eventTable">
+		<tr>
+			<td class = "tableHeader" width ="200px">
+				Company:
+			</td>
+			<td class="tableText">
+				{{event_data.company.name}}
+			</td>
+		</tr>
+		<tr>
+			<td class = "tableHeader">
+				Seller:
+			</td>
+			<td class = "tableText">
+				{{event_data.player_from.username}}
+			</td>
+		</tr>
+		<tr>
+			<td class = "tableHeader">
+				Buyer:
+			</td>
+			<td class = "tableText">
+				{{event_data.player_to.username}}
+			</td>
+		</tr>
+		<tr>
+			<td class = "tableHeader">
+				Number of Shares:
+			</td>
+			<td class = "tableText">
+				{{event_data.amount_of_shares}}
+			</td>
+		</tr>
+		<tr>
+			<td class = "tableHeader">
+				Credits:
+			</td>
+			<td class = "tableText">
+				{{event_data.total_credits}}
+			</td>
+		</tr>
+	</table>
+
+	<table class= "eventTable">
+		<tr>
+			<td class = "tableHeader">
+				Comments:
+			</td>
+		</tr>
+		{% for comment in comments %}
+		<tr>
+			<td class = "tableText">
+				<a href="/profile/{{comment.author.id}}">{{comment.author.username}}:</a> - {{comment.content}}
+			</td>
+		</tr>
+		{% endfor %}
+		<tr>
+			<td class = "tableHeader">
+				Add a Comment:<br/>
+				<form action="/event/{{event_data.id}}/" method="post">{% csrf_token %} {{ form.as_p }} <input type="submit" value="Send" /> </form>
+			</td>
+		</tr>
+
+	</table>
 </body>
 
-</html>
-
-</html>
+{% include "footer.html" %}
