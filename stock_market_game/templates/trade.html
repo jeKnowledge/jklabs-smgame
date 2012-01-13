@@ -9,9 +9,23 @@
                 </tr>
         </table>
         <table class="tradeTable">
-                {%for comp, yest, tod, dif in values_list %}
                 <tr>
                         <td class = "tableHeader">
+                                Company
+                        </td>
+                        <td class = "tableHeader">
+                                Yesterday
+                        </td>
+                        <td class = "tableHeader">
+                                Today
+                        </td>
+                        <td class = "tableHeader">
+                                Diference
+                        </td>
+                </tr>
+                {%for comp, yest, tod, dif in values_list %}
+                <tr>
+                        <td class = "tableHeader" width="30%">
                                 {{comp}}
                         </td>
                         <td class = "tableText">

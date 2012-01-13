@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Create your views here.
 from django.shortcuts import render_to_response
 from gamecore.models import Proposal, MenuItem, Company, Investment, GEvent, TradeForm, EventComment, CommentForm
@@ -59,7 +60,14 @@ def buy(request, prop_id):
 				if ucredits.current_credits < nshares*svalue:
 					return render_to_response('cannot.html', {'menu_items':menu_items}, context_instance=RequestContext(request))
 				
-				invest=Investment(owner=request.user,of_company=proposal.company,n_shares=nshares, initial_value=svalue)
+				#Passed all tests now gonna add to an existing investment or create a new one
+				invest=Investment.objects.get(owner=request.user, of_company=proposal.company)
+				if invest:
+					invest.initial_value=((invest.n_shares*invest.initial_value)+(nshares*svalue))/nshares+invest.n_shares
+					invest.n_shares+=nshares
+				else:
+					invest=Investment(owner=request.user,of_company=proposal.company,n_shares=nshares, initial_value=svalue)
+
 				invest.save()
 				ucredits.debit(nshares*svalue)
 				ucredits.save()
@@ -70,6 +78,7 @@ def buy(request, prop_id):
 				new_event.save()	
 				
 				if proposal.player_from.username != 'Market':
+
 					todecrement=Investment.objects.get(owner=proposal.player_from, of_company=proposal.company)
 					todecrement.n_shares-=nshares
 					if todecrement.n_shares == 0:
@@ -83,8 +92,15 @@ def buy(request, prop_id):
 				ucredits=UserCredit.objects.get(user=proposal.player_from)
 				if ucredits.current_credits < nshares*svalue:
 					return render_to_response('cannot.html', {'menu_items':menu_items},context_instance=RequestContext(request))
+
+				#Passed all tests now gonna add to an existing investment or create a new one
+				invest=Investment.objects.get(owner=proposal.player_from, of_company=proposal.company)
+				if invest:
+					invest.initial_value=((invest.n_shares*invest.initial_value)+(nshares*svalue))/nshares+invest.n_shares
+					invest.n_shares+=nshares
+				else:
+					invest=Investment(owner=proposal.player_from,of_company=proposal.company,n_shares=nshares, initial_value=svalue)
 				
-				invest=Investment(owner=proposal.player_from,of_company=proposal.company,n_shares=nshares, initial_value=svalue)
 				invest.save()
 				ucredits.debit(nshares*svalue)
 				ucredits.save()
@@ -165,8 +181,8 @@ def companypage(request, company_id):
 
 #Auxiliar functions
 def generate_diference(todays, yesterday):
-	if not todays or not yesterday:
-		return []
+	#if not todays or not yesterday:
+	#	return []
 	
 	companies=Company.objects.all()
 	values_dic={}
@@ -181,16 +197,23 @@ def generate_diference(todays, yesterday):
 	
 	for item in todays:
 		values_dic[item.company.name][2]+=item.total_credits/item.amount_of_shares
-		values_dic[item.company.name][3]+=1
-		
+		values_dic[item.company.name][3]+=1	
+	
 	for comp, list in values_dic.iteritems():
-		values_list.append([comp, list[0]/list[1], list[2]/list[3], (list[2]/list[3])-(list[0]/list[1])])
+		if (not list[1]) and (not list[3]):
+			values_list.append([comp, "no transactions", "no transactions", "no data"])
+		elif not list[1]:
+			values_list.append([comp, "no transactions", list[2]/list[3], "no data"])
+		elif not list[3]:
+			values_list.append([comp, list[0]/list[1], "no transactions", "no data"])
+		else:
+			values_list.append([comp, list[0]/list[1], list[2]/list[3], (list[2]/list[3])-(list[0]/list[1])])
 	
 	return values_list
 	
 def invest_changes(todays, yesterdays, user):
-	if not todays or not yesterdays:
-		return []
+	#if not todays or not yesterdays:
+	#	return []
 	
 	companies=[]
 	
@@ -203,7 +226,7 @@ def invest_changes(todays, yesterdays, user):
 		values_dic[invest.of_company.name]=[0,0,0,0,invest.initial_value]
 	
 	## Atention this may need another counting aproach
-	for item in yesterday:
+	for item in yesterdays:
 		if item.company.name in values_dic:
 			values_dic[item.company.name][0]+=item.total_credits/item.amount_of_shares
 			values_dic[item.company.name][1]+=1
@@ -214,7 +237,14 @@ def invest_changes(todays, yesterdays, user):
 			values_dic[item.company.name][3]+=1
 		
 	for comp, list in values_dic.iteritems():
-		values_list.append([comp, list[0]/list[1], list[2]/list[3], (list[2]/list[3])-(list[0]/list[1]), list[5], (list[2]/list[3])-list[5]])
+		if (not list[1]) and (not list[3]):
+			values_list.append([comp, "no transactions", "no transactions", "no data", list[4], "no data"])
+		elif not list[1]:
+			values_list.append([comp, "no transactions", list[2]/list[3], "no data", list[4], (list[2]/list[3])-list[4]])
+		elif not list[3]:
+			values_list.append([comp, list[0]/list[1], "no transactions", "no data", list[4], "no data"])
+		else:
+			values_list.append([comp, list[0]/list[1], list[2]/list[3], (list[2]/list[3])-(list[0]/list[1]), list[4], (list[2]/list[3])-list[4]])
 	
 	return values_list
 	

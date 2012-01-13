@@ -4,7 +4,10 @@ from django.contrib import admin
 class MenuItemList(admin.ModelAdmin):
     list_display = ('menu_name', 'link_url')
 
-admin.site.register(Company)
+class CompanyItemList(admin.ModelAdmin):
+    list_display = ('name', 'active')
+
+admin.site.register(Company, CompanyItemList)
 admin.site.register(Investment)
 admin.site.register(GEvent)
 admin.site.register(MenuItem,MenuItemList)
