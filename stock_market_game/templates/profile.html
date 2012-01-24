@@ -32,7 +32,7 @@
 				Awards:
 			</td>
 			<td class="tableText">
-				{% for badge in uawards %}<IMG SRC="{{ STATIC_URL }}{{badge.badge}}" alt="badge.title">{% endfor %}
+				{% for badge in uawards %}<IMG SRC="{{ STATIC_URL }}{{badge.badge}}" title="{{badge.title}}">{% endfor %}
 			</td>
 		</tr>
 	</table>

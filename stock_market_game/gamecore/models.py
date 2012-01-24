@@ -5,6 +5,9 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Company(models.Model):
+	'''
+		Model of the objects representing one company.
+	'''
 	active=models.BooleanField()
 	name=models.CharField(max_length=128)
 	website=models.URLField()
@@ -20,6 +23,11 @@ class Company(models.Model):
 	
 	
 class Investment(models.Model):
+	'''
+		Each User may have many investments in diferent companies. 
+		each object from this model represents the cake of all shares of 
+		1 User from 1 company.
+	'''
 	owner=models.ForeignKey(User)
 	of_company=models.ForeignKey(Company)
 	n_shares=models.IntegerField()
@@ -28,6 +36,10 @@ class Investment(models.Model):
 	#here goes the methos over these objects
 	
 class Proposal(models.Model):
+	'''
+		If a user wants to buy or sell shares he creates a proposal.
+		This info will be shared with the other users
+	'''
 	p_type=models.CharField(max_length=12)
 	shares=models.IntegerField()
 	per_share=models.IntegerField()
@@ -36,6 +48,11 @@ class Proposal(models.Model):
 	
 
 class GEvent(models.Model):
+	'''
+		Info About the diferent events ocurring in the game
+		Represents the historical data of the game. The data and calculations 
+		about the market activity are made with this objects
+	'''
 	e_type=models.CharField(max_length=12)
 	player_from=models.ForeignKey(User, related_name='+')
 	player_to=models.ForeignKey(User, related_name='+')
@@ -48,6 +65,9 @@ class GEvent(models.Model):
 	#here goes the methos over these objects
 
 class EventComment(models.Model):
+	'''
+		Each event may have many comments.
+	'''
 	author=models.ForeignKey(User, related_name='+')
 	event=models.ForeignKey(GEvent)
 	posted=models.DateTimeField()
@@ -55,16 +75,26 @@ class EventComment(models.Model):
 	
 
 class MenuItem(models.Model):
+	'''
+		Info about each menu entry
+	'''
 	menu_name=models.CharField(max_length=20)
 	link_name=models.CharField(max_length=30)
 	link_url=models.CharField(max_length=30)
 
 
-#Above you can find all the forms used by core functions
+#Below you can find all the forms used by core functions
 
 class TradeForm(forms.Form):
+	'''
+		Form used to buy and Sell shares
+	'''
 	value=forms.FloatField()
 	shares=forms.IntegerField()
 	
 class CommentForm(forms.Form):
+	'''
+		From used to retrieve content for the comments in
+		the events
+	'''
 	content=forms.CharField()

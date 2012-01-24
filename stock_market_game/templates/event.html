@@ -15,7 +15,7 @@
 				Company:
 			</td>
 			<td class="tableText">
-				{{event_data.company.name}}
+				<a href="/company/{{event_data.company.id}}">{{event_data.company.name}}</a>
 			</td>
 		</tr>
 		<tr>
@@ -23,7 +23,7 @@
 				Seller:
 			</td>
 			<td class = "tableText">
-				{{event_data.player_from.username}}
+				<a href="/profile/{{event_data.player_from.id}}">{{event_data.player_from.username}}</a>
 			</td>
 		</tr>
 		<tr>
@@ -31,7 +31,7 @@
 				Buyer:
 			</td>
 			<td class = "tableText">
-				{{event_data.player_to.username}}
+				<a href="/profile/{{event_data.player_to.id}}">{{event_data.player_to.username}}</a>
 			</td>
 		</tr>
 		<tr>
